@@ -27,10 +27,21 @@ export function useAuth() {
 
     const initAuth = async () => {
       try {
-        const { data: { user: authUser } } = await supabase.auth.getUser()
+        // Use getSession instead of getUser - more reliable
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
 
         if (!mounted) return
 
+        if (sessionError) {
+          console.error('Session error:', sessionError)
+          setUser(null)
+          setProfile(null)
+          setLoading(false)
+          setInitialized(true)
+          return
+        }
+
+        const authUser = session?.user ?? null
         setUser(authUser)
 
         if (authUser) {
@@ -44,7 +55,11 @@ export function useAuth() {
             setProfile(profileData)
           }
         }
-      } catch (error) {
+      } catch (error: unknown) {
+        // Ignore AbortError - happens during unmount
+        if (error instanceof Error && error.name === 'AbortError') {
+          return
+        }
         console.error('Auth initialization error:', error)
       } finally {
         if (mounted) {
