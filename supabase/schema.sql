@@ -486,7 +486,7 @@ BEGIN
     INSERT INTO public.conversation_members (conversation_id, user_id, role)
     VALUES
         (dm_id, current_user_id, 'member'),
-        (other_user_id, dm_id, 'member');
+        (dm_id, other_user_id, 'member');
 
     RETURN dm_id;
 END;

@@ -22,11 +22,17 @@ export default function PeoplePage() {
   const [searchResults, setSearchResults] = useState<Profile[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [isCreatingDM, setIsCreatingDM] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   // Search users
   useEffect(() => {
     if (searchQuery.length < 2) {
       setSearchResults([])
+      return
+    }
+
+    // Don't search until we have the user ID
+    if (!user?.id) {
       return
     }
 
@@ -38,11 +44,13 @@ export default function PeoplePage() {
         .from('profiles')
         .select('*')
         .or(`username.ilike.%${searchQuery}%,display_name.ilike.%${searchQuery}%`)
-        .neq('id', user?.id)
+        .neq('id', user.id)
         .limit(20)
 
       if (!error && data) {
         setSearchResults(data)
+      } else if (error) {
+        console.error('Search error:', error)
       }
       setIsSearching(false)
     }
@@ -53,11 +61,29 @@ export default function PeoplePage() {
 
   const handleStartChat = async (profile: Profile) => {
     setIsCreatingDM(profile.id)
+    setError(null)
     try {
-      const { data: conversationId, error } = await createDM(profile.id)
-      if (!error && conversationId) {
-        router.push(`/chat/${conversationId}`)
+      console.log('Creating DM with:', profile.id)
+      const result = await createDM(profile.id)
+      console.log('createDM full result:', result)
+
+      const { data: conversationId, error: createError } = result
+
+      if (createError) {
+        console.error('createDM error:', createError)
+        setError(createError.message || 'Sohbet oluşturulamadı')
+        return
       }
+
+      if (conversationId) {
+        console.log('Navigating to:', `/chat/${conversationId}`)
+        router.push(`/chat/${conversationId}`)
+      } else {
+        setError('Sohbet ID alınamadı')
+      }
+    } catch (err) {
+      console.error('handleStartChat error:', err)
+      setError('Bir hata oluştu: ' + (err as Error).message)
     } finally {
       setIsCreatingDM(null)
     }
@@ -81,6 +107,13 @@ export default function PeoplePage() {
           </div>
         </header>
 
+        {/* Error */}
+        {error && (
+          <div className="mx-4 mt-2 p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+            <p className="text-sm text-red-400">{error}</p>
+          </div>
+        )}
+
         {/* Results */}
         <div className="flex-1 overflow-y-auto">
           {isSearching ? (
@@ -100,18 +133,26 @@ export default function PeoplePage() {
           ) : (
             <div className="divide-y divide-zinc-800/50">
               {searchResults.map((profile) => (
-                <button
+                <div
                   key={profile.id}
-                  onClick={() => handleStartChat(profile)}
-                  disabled={isCreatingDM === profile.id}
-                  className="w-full flex items-center gap-3 p-4 text-left hover:bg-zinc-800/50 transition-colors disabled:opacity-50"
+                  onClick={() => {
+                    if (isCreatingDM !== profile.id) {
+                      handleStartChat(profile)
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  className="w-full flex items-center gap-3 p-4 text-left hover:bg-zinc-800/50 transition-colors cursor-pointer active:bg-zinc-800"
+                  style={{ WebkitTapHighlightColor: 'transparent' }}
                 >
-                  <Avatar
-                    src={profile.avatar_url}
-                    name={profile.display_name || profile.username}
-                    size="lg"
-                  />
-                  <div className="flex-1 min-w-0">
+                  <div className="pointer-events-none">
+                    <Avatar
+                      src={profile.avatar_url}
+                      name={profile.display_name || profile.username}
+                      size="lg"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0 pointer-events-none">
                     <h3 className="font-medium text-zinc-100 truncate">
                       {profile.display_name || profile.username}
                     </h3>
@@ -120,9 +161,11 @@ export default function PeoplePage() {
                     </p>
                   </div>
                   {isCreatingDM === profile.id && (
-                    <Loading size="sm" />
+                    <div className="pointer-events-none">
+                      <Loading size="sm" />
+                    </div>
                   )}
-                </button>
+                </div>
               ))}
             </div>
           )}
