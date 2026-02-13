@@ -44,8 +44,15 @@ export default function RootLayout({
     <html lang="tr" className="dark">
       <head>
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192.png" />
+        <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-192.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="application-name" content="MESKEN" />
+        <meta name="msapplication-TileColor" content="#09090b" />
+        <meta name="msapplication-tap-highlight" content="no" />
       </head>
       <body className={`${inter.variable} font-sans antialiased bg-zinc-900 text-zinc-100`}>
         {children}

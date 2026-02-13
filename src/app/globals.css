@@ -23,13 +23,13 @@
   background: #52525b;
 }
 
-/* Safe area padding utilities */
+/* Safe area padding utilities with fallbacks for mobile browsers */
 .safe-area-top {
-  padding-top: env(safe-area-inset-top);
+  padding-top: max(12px, env(safe-area-inset-top));
 }
 
 .safe-area-bottom {
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
 }
 
 .safe-area-left {
@@ -41,11 +41,16 @@
 }
 
 .pt-safe {
-  padding-top: env(safe-area-inset-top);
+  padding-top: max(12px, env(safe-area-inset-top));
 }
 
 .pb-safe {
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+}
+
+/* Extra bottom padding for pages with fixed bottom elements */
+.pb-safe-extra {
+  padding-bottom: max(32px, calc(env(safe-area-inset-bottom) + 16px));
 }
 
 /* Hide scrollbar but keep functionality */
@@ -61,6 +66,19 @@
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;
+}
+
+/* PWA - Native app feel */
+html {
+  height: 100%;
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100%;
+  min-height: -webkit-fill-available;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Remove tap highlight on mobile */

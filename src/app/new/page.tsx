@@ -49,7 +49,7 @@ export default function NewConversationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-900">
+    <div className="min-h-screen bg-zinc-900 flex flex-col">
       {/* Header */}
       <header className="flex items-center gap-3 px-4 py-4 border-b border-zinc-800 safe-area-top">
         <button
@@ -62,7 +62,7 @@ export default function NewConversationPage() {
       </header>
 
       {/* Content */}
-      <div className="px-4 py-6 space-y-6">
+      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6 pb-safe-extra">
         {/* New DM */}
         <button
           onClick={() => router.push('/app/people')}

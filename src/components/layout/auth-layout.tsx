@@ -22,7 +22,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
       </header>
 
       {/* Content */}
-      <main className="flex-1 flex flex-col px-6 pb-safe">
+      <main className="flex-1 flex flex-col px-6 pb-safe-extra">
         {(title || subtitle) && (
           <div className="mb-8">
             {title && (

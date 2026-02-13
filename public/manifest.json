@@ -3,11 +3,16 @@
   "short_name": "MESKEN",
   "description": "Özel alanın. Güvenli ve özel mesajlaşma platformu.",
   "start_url": "/app",
+  "id": "/app",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "fullscreen"],
   "background_color": "#09090b",
   "theme_color": "#09090b",
   "orientation": "portrait-primary",
   "scope": "/",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
   "icons": [
     {
       "src": "/icons/icon-72.png",

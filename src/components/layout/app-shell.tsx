@@ -31,8 +31,8 @@ export function AppShell({ children }: AppShellProps) {
       <main className="flex-1 overflow-hidden">{children}</main>
 
       {/* Bottom navigation */}
-      <nav className="flex-shrink-0 border-t border-zinc-800 bg-zinc-900 safe-area-bottom">
-        <div className="flex items-center justify-around">
+      <nav className="flex-shrink-0 border-t border-zinc-800 bg-zinc-900 pb-safe">
+        <div className="flex items-center justify-around pt-1">
           {tabs.map((tab) => {
             const isActive = isTabActive(tab.href)
             const Icon = tab.icon

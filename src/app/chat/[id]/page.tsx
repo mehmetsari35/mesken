@@ -151,7 +151,7 @@ export default function ChatPage() {
       </div>
 
       {/* Input */}
-      <div className="flex-shrink-0 safe-area-bottom">
+      <div className="flex-shrink-0 pb-safe">
         <MessageInput
           onSendText={handleSendText}
           onSendVoice={handleSendVoice}
