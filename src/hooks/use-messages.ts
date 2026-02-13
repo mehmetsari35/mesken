@@ -18,6 +18,8 @@ export function useMessages(conversationId: string | null) {
     setLoadingMessages,
   } = useChatStore()
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null)
+  const pollingRef = useRef<NodeJS.Timeout | null>(null)
+  const isRealtimeConnected = useRef(false)
 
   // Fetch messages for a conversation
   const fetchMessages = useCallback(async () => {
@@ -178,7 +180,16 @@ export function useMessages(conversationId: string | null) {
           filter: `conversation_id=eq.${conversationId}`,
         },
         async (payload) => {
-          // Fetch the complete message with sender
+          // Skip if this is our own message (already added locally after send)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const newMessage = payload.new as any
+          if (newMessage.sender_id === user?.id) {
+            console.log('[realtime] Skipping own message:', newMessage.id)
+            return
+          }
+
+          // Fetch the complete message with sender for other users' messages
+          console.log('[realtime] New message from other user:', newMessage.id)
           const { data } = await supabase
             .from('messages')
             .select(
@@ -187,7 +198,7 @@ export function useMessages(conversationId: string | null) {
               sender:profiles(*)
             `
             )
-            .eq('id', payload.new.id)
+            .eq('id', newMessage.id)
             .single()
 
           if (data) {
@@ -207,15 +218,40 @@ export function useMessages(conversationId: string | null) {
           updateMessage(payload.new.id as number, payload.new as MessageWithSender)
         }
       )
-      .subscribe()
+      .subscribe((status) => {
+        console.log('[realtime] Subscription status:', status)
+        if (status === 'SUBSCRIBED') {
+          console.log('[realtime] Successfully subscribed to messages:', conversationId)
+          isRealtimeConnected.current = true
+          // Stop polling if realtime connects
+          if (pollingRef.current) {
+            clearInterval(pollingRef.current)
+            pollingRef.current = null
+          }
+        } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+          console.error('[realtime] Connection failed, starting polling fallback:', conversationId)
+          isRealtimeConnected.current = false
+          // Start polling as fallback (every 3 seconds)
+          if (!pollingRef.current) {
+            pollingRef.current = setInterval(() => {
+              console.log('[polling] Fetching messages...')
+              fetchMessages()
+            }, 3000)
+          }
+        }
+      })
 
     channelRef.current = channel
 
     return () => {
       supabase.removeChannel(channel)
       channelRef.current = null
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current)
+        pollingRef.current = null
+      }
     }
-  }, [supabase, conversationId, user, addMessage, updateMessage])
+  }, [supabase, conversationId, user, addMessage, updateMessage, fetchMessages])
 
   // Initial fetch when conversation changes
   useEffect(() => {

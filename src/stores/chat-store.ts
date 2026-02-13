@@ -50,9 +50,17 @@ export const useChatStore = create<ChatState>((set) => ({
   setMessages: (messages) => set({ messages }),
 
   addMessage: (message) =>
-    set((state) => ({
-      messages: [...state.messages, message],
-    })),
+    set((state) => {
+      // Check if message already exists (prevent duplicates from realtime + local add)
+      const exists = state.messages.some((m) => m.id === message.id)
+      if (exists) {
+        console.log('[chat-store] Skipping duplicate message:', message.id)
+        return state // No change if message already exists
+      }
+      return {
+        messages: [...state.messages, message],
+      }
+    }),
 
   updateMessage: (id, updates) =>
     set((state) => ({
