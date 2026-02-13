@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { AuthLayout } from '@/components/layout/auth-layout'
@@ -10,10 +10,17 @@ import { useAuth } from '@/hooks/use-auth'
 
 export default function LoginPage() {
   const router = useRouter()
-  const { login, isLoading } = useAuth()
+  const { login, isLoading, user, isInitialized } = useAuth()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+
+  // Redirect to app if already logged in
+  useEffect(() => {
+    if (isInitialized && user) {
+      router.replace('/app')
+    }
+  }, [isInitialized, user, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

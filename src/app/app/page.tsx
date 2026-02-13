@@ -2,6 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import { AppShell } from '@/components/layout/app-shell'
@@ -15,14 +16,20 @@ export default function ChatsPage() {
   const { user, profile, isLoading: authLoading, isInitialized } = useAuth()
   const { conversations, isLoading: conversationsLoading } = useConversations()
 
-  // Show loading while auth is initializing
-  if (authLoading || !isInitialized) {
+  // Only redirect if auth is done and no user
+  useEffect(() => {
+    if (isInitialized && !user) {
+      router.replace('/login')
+    }
+  }, [isInitialized, user, router])
+
+  // Show loading only while initializing
+  if (!isInitialized) {
     return <Loading fullScreen text="Yükleniyor..." />
   }
 
-  // Redirect to login if not authenticated
+  // No user - will redirect
   if (!user) {
-    router.push('/login')
     return <Loading fullScreen text="Yönlendiriliyor..." />
   }
 

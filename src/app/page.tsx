@@ -16,22 +16,21 @@ export default function HomePage() {
 
   const handleSplashComplete = useCallback(() => {
     setShowSplash(false)
-    // If standalone (PWA), redirect to app after splash
-    const isInStandaloneMode =
-      window.matchMedia('(display-mode: standalone)').matches ||
-      (window.navigator as Navigator & { standalone?: boolean }).standalone === true
-    if (isInStandaloneMode) {
-      router.replace('/app')
-    }
-  }, [router])
+  }, [])
 
   useEffect(() => {
-    // Check if already installed as PWA
+    // Check if already installed as PWA - skip splash and go to app
     const isInStandaloneMode =
       window.matchMedia('(display-mode: standalone)').matches ||
       (window.navigator as Navigator & { standalone?: boolean }).standalone === true
 
-    setIsStandalone(isInStandaloneMode)
+    if (isInStandaloneMode) {
+      // PWA mode - skip splash, go directly to app
+      router.replace('/app')
+      return
+    }
+
+    setIsStandalone(false)
 
     // Detect iOS
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent)
@@ -49,7 +48,7 @@ export default function HomePage() {
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall)
     }
-  }, [])
+  }, [router])
 
   const handleInstall = async () => {
     if (!deferredPrompt) return
@@ -82,59 +81,59 @@ export default function HomePage() {
   return (
     <div className="h-screen flex flex-col bg-zinc-900 overflow-hidden">
       {/* Hero Section */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-6 min-h-0">
+      <div className="flex-1 flex flex-col items-center justify-center px-5 py-4 min-h-0 overflow-y-auto">
         {/* Logo */}
-        <div className="relative mb-6">
-          <div className="absolute inset-0 h-20 w-20 rounded-2xl bg-emerald-500 blur-xl opacity-30" />
-          <div className="relative h-20 w-20 rounded-2xl bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-700 flex items-center justify-center shadow-xl shadow-emerald-500/25">
-            <div className="absolute inset-0.5 rounded-[14px] bg-gradient-to-br from-white/20 to-transparent" />
-            <span className="relative text-3xl font-black text-white drop-shadow-md">M</span>
+        <div className="relative mb-4 flex-shrink-0">
+          <div className="absolute inset-0 h-16 w-16 rounded-2xl bg-emerald-500 blur-xl opacity-30" />
+          <div className="relative h-16 w-16 rounded-2xl bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-700 flex items-center justify-center shadow-xl shadow-emerald-500/25">
+            <div className="absolute inset-0.5 rounded-[12px] bg-gradient-to-br from-white/20 to-transparent" />
+            <span className="relative text-2xl font-black text-white drop-shadow-md">M</span>
           </div>
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl font-bold text-zinc-100 tracking-tight text-center">
+        <h1 className="text-3xl font-bold text-zinc-100 tracking-tight text-center flex-shrink-0">
           MESKEN
         </h1>
-        <p className="text-base text-zinc-400 mt-2 text-center max-w-xs">
+        <p className="text-sm text-zinc-400 mt-1 text-center max-w-xs flex-shrink-0">
           Özel alanın. Güvenli ve özel mesajlaşma platformu.
         </p>
 
         {/* Features */}
-        <div className="mt-8 space-y-3 w-full max-w-sm">
-          <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-800/50">
-            <div className="h-10 w-10 rounded-full bg-emerald-600/20 flex items-center justify-center flex-shrink-0">
-              <Shield className="h-5 w-5 text-emerald-500" />
+        <div className="mt-5 space-y-2 w-full max-w-sm flex-shrink-0">
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-zinc-800/50">
+            <div className="h-9 w-9 rounded-full bg-emerald-600/20 flex items-center justify-center flex-shrink-0">
+              <Shield className="h-4 w-4 text-emerald-500" />
             </div>
             <div className="min-w-0">
-              <h3 className="font-medium text-zinc-100">Davetiye ile Giriş</h3>
-              <p className="text-sm text-zinc-500">Sadece davet edilenler katılabilir</p>
+              <h3 className="font-medium text-zinc-100 text-sm">Davetiye ile Giriş</h3>
+              <p className="text-xs text-zinc-500">Sadece davet edilenler katılabilir</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-800/50">
-            <div className="h-10 w-10 rounded-full bg-emerald-600/20 flex items-center justify-center flex-shrink-0">
-              <Lock className="h-5 w-5 text-emerald-500" />
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-zinc-800/50">
+            <div className="h-9 w-9 rounded-full bg-emerald-600/20 flex items-center justify-center flex-shrink-0">
+              <Lock className="h-4 w-4 text-emerald-500" />
             </div>
             <div className="min-w-0">
-              <h3 className="font-medium text-zinc-100">Gizlilik Öncelikli</h3>
-              <p className="text-sm text-zinc-500">E-posta veya telefon gerekmez</p>
+              <h3 className="font-medium text-zinc-100 text-sm">Gizlilik Öncelikli</h3>
+              <p className="text-xs text-zinc-500">E-posta veya telefon gerekmez</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-800/50">
-            <div className="h-10 w-10 rounded-full bg-emerald-600/20 flex items-center justify-center flex-shrink-0">
-              <Smartphone className="h-5 w-5 text-emerald-500" />
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-zinc-800/50">
+            <div className="h-9 w-9 rounded-full bg-emerald-600/20 flex items-center justify-center flex-shrink-0">
+              <Smartphone className="h-4 w-4 text-emerald-500" />
             </div>
             <div className="min-w-0">
-              <h3 className="font-medium text-zinc-100">Her Yerde</h3>
-              <p className="text-sm text-zinc-500">Web, mobil ve masaüstü desteği</p>
+              <h3 className="font-medium text-zinc-100 text-sm">Her Yerde</h3>
+              <p className="text-xs text-zinc-500">Web, mobil ve masaüstü desteği</p>
             </div>
           </div>
         </div>
 
         {/* Actions - moved inside hero section */}
-        <div className="mt-8 w-full max-w-sm space-y-3">
+        <div className="mt-5 w-full max-w-sm space-y-2 flex-shrink-0 pb-4">
           {/* iOS Install Instructions */}
           {isIOS && !isStandalone && (
             <div className="p-4 rounded-xl bg-zinc-800 text-center">

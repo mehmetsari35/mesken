@@ -23,25 +23,34 @@ export function useAuth() {
 
   // Initialize auth state
   useEffect(() => {
+    let mounted = true
+
     const initAuth = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser()
-        setUser(user)
+        const { data: { user: authUser } } = await supabase.auth.getUser()
 
-        if (user) {
-          const { data: profile } = await supabase
+        if (!mounted) return
+
+        setUser(authUser)
+
+        if (authUser) {
+          const { data: profileData } = await supabase
             .from('profiles')
             .select('*')
-            .eq('id', user.id)
+            .eq('id', authUser.id)
             .single()
 
-          setProfile(profile)
+          if (mounted) {
+            setProfile(profileData)
+          }
         }
       } catch (error) {
         console.error('Auth initialization error:', error)
       } finally {
-        setLoading(false)
-        setInitialized(true)
+        if (mounted) {
+          setLoading(false)
+          setInitialized(true)
+        }
       }
     }
 
@@ -50,27 +59,31 @@ export function useAuth() {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        setUser(session?.user ?? null)
+        if (!mounted) return
 
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single()
-
-          setProfile(profile)
-        } else {
+        // Only update if actually changed
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+          setUser(session?.user ?? null)
+          if (session?.user) {
+            const { data: profileData } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('id', session.user.id)
+              .single()
+            if (mounted) {
+              setProfile(profileData)
+            }
+          }
+        } else if (event === 'SIGNED_OUT') {
+          setUser(null)
           setProfile(null)
-        }
-
-        if (event === 'SIGNED_OUT') {
           router.push('/login')
         }
       }
     )
 
     return () => {
+      mounted = false
       subscription.unsubscribe()
     }
   }, [supabase, setUser, setProfile, setLoading, setInitialized, router])
