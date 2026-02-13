@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(npx create-next-app:*)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__click",
+      "mcp__chrome-devtools__fill",
+      "mcp__chrome-devtools__list_console_messages",
+      "mcp__chrome-devtools__get_console_message",
+      "mcp__chrome-devtools__new_page",
+      "mcp__chrome-devtools__wait_for",
+      "mcp__chrome-devtools__select_page",
+      "mcp__chrome-devtools__list_network_requests",
+      "Bash(node scripts/generate-icons.js:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: MESKEN - Telegram benzeri güvenli mesajlaşma uygulaması\n\nTemel özellikler:\n- Davet kodu ile kullanıcı kaydı \\(invite-only\\)\n- Username + şifre ile giriş \\(email gerektirmez\\)\n- Grup sohbetleri oluşturma ve yönetme\n- 1-1 DM mesajlaşma altyapısı\n- Sesli mesaj kaydetme ve gönderme \\(max 60sn\\)\n- Real-time mesaj güncellemeleri\n- PWA desteği \\(manifest + ikonlar\\)\n- Mobil uyumlu responsive tasarım\n\nTeknolojiler:\n- Next.js 16 \\(App Router, TypeScript\\)\n- Supabase \\(Auth, Database, Storage, Realtime\\)\n- Tailwind CSS 4\n- Zustand \\(state management\\)\n\nVeritabanı:\n- RLS politikaları ile güvenli erişim\n- PostgreSQL fonksiyonları \\(create_group, join_group, etc.\\)\n- Storage bucket \\(voice\\) sesli mesajlar için\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git config:*)",
+      "Bash(npx vercel --version)",
+      "Bash(npx vercel:*)",
+      "mcp__chrome-devtools__list_pages",
+      "Bash(git commit:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

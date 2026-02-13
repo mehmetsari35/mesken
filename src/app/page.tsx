@@ -16,7 +16,14 @@ export default function HomePage() {
 
   const handleSplashComplete = useCallback(() => {
     setShowSplash(false)
-  }, [])
+    // If standalone (PWA), redirect to app after splash
+    const isInStandaloneMode =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as Navigator & { standalone?: boolean }).standalone === true
+    if (isInStandaloneMode) {
+      router.replace('/app')
+    }
+  }, [router])
 
   useEffect(() => {
     // Check if already installed as PWA
@@ -66,12 +73,6 @@ export default function HomePage() {
     router.push('/login')
   }
 
-  // If already installed, redirect to app
-  useEffect(() => {
-    if (isStandalone) {
-      router.replace('/app')
-    }
-  }, [isStandalone, router])
 
   // Show splash screen first
   if (showSplash) {
