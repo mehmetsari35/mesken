@@ -75,7 +75,7 @@ export default function HomePage() {
 
   // Show splash screen first
   if (showSplash) {
-    return <SplashScreen onComplete={handleSplashComplete} duration={2000} />
+    return <SplashScreen onComplete={handleSplashComplete} duration={3000} />
   }
 
   return (
@@ -134,19 +134,6 @@ export default function HomePage() {
 
         {/* Actions - moved inside hero section */}
         <div className="mt-8 w-full max-w-sm space-y-3">
-          {/* Install Button - Android/Desktop */}
-          {isInstallable && !isIOS && (
-            <Button
-              onClick={handleInstall}
-              variant="primary"
-              size="lg"
-              className="w-full"
-            >
-              <Download className="mr-2 h-5 w-5" />
-              Uygulamayı Yükle
-            </Button>
-          )}
-
           {/* iOS Install Instructions */}
           {isIOS && !isStandalone && (
             <div className="p-4 rounded-xl bg-zinc-800 text-center">
@@ -160,16 +147,39 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* Continue Button */}
-          <Button
+          {/* Install Button - Always show */}
+          {!isIOS && (
+            <Button
+              onClick={isInstallable ? handleInstall : handleContinue}
+              variant="primary"
+              size="lg"
+              className="w-full"
+            >
+              <Download className="mr-2 h-5 w-5" />
+              Uygulamayı Yükle
+            </Button>
+          )}
+
+          {/* iOS Continue Button */}
+          {isIOS && (
+            <Button
+              onClick={handleContinue}
+              variant="primary"
+              size="lg"
+              className="w-full"
+            >
+              <Download className="mr-2 h-5 w-5" />
+              Uygulamayı Yükle
+            </Button>
+          )}
+
+          {/* Skip link - small text */}
+          <button
             onClick={handleContinue}
-            variant={isInstallable ? 'secondary' : 'primary'}
-            size="lg"
-            className="w-full"
+            className="w-full text-center text-sm text-zinc-500 hover:text-zinc-400 transition-colors py-2"
           >
-            Devam Et
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+            Tarayıcıda devam et
+          </button>
         </div>
       </div>
     </div>
