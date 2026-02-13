@@ -60,31 +60,47 @@ export default function PeoplePage() {
   }, [searchQuery, user?.id])
 
   const handleStartChat = async (profile: Profile) => {
+    console.log('[STEP 1] handleStartChat called for user:', profile.id, profile.username)
+
+    // Check if user is authenticated
+    if (!user) {
+      console.error('[STEP 1.5] ERROR: No authenticated user!')
+      setError('Giriş yapmanız gerekiyor. Lütfen yeniden giriş yapın.')
+      return
+    }
+    console.log('[STEP 2] Current user authenticated:', user.id)
+
     setIsCreatingDM(profile.id)
     setError(null)
+
     try {
-      console.log('Creating DM with:', profile.id)
+      console.log('[STEP 3] Calling createDM...')
       const result = await createDM(profile.id)
-      console.log('createDM full result:', result)
+      console.log('[STEP 4] createDM returned:', JSON.stringify(result, null, 2))
 
       const { data: conversationId, error: createError } = result
 
       if (createError) {
-        console.error('createDM error:', createError)
-        setError(createError.message || 'Sohbet oluşturulamadı')
+        console.error('[STEP 5] createDM error:', createError)
+        const errorMessage = createError.message || createError.code || 'Bilinmeyen hata'
+        const errorCode = createError.code || ''
+        setError(`Sohbet oluşturulamadı: ${errorMessage} ${errorCode ? `(${errorCode})` : ''}`)
         return
       }
 
       if (conversationId) {
-        console.log('Navigating to:', `/chat/${conversationId}`)
+        console.log('[STEP 6] Success! Navigating to:', `/chat/${conversationId}`)
         router.push(`/chat/${conversationId}`)
       } else {
-        setError('Sohbet ID alınamadı')
+        console.error('[STEP 6] ERROR: No conversation ID returned')
+        setError('Sohbet ID alınamadı - sunucu boş yanıt döndü')
       }
     } catch (err) {
-      console.error('handleStartChat error:', err)
-      setError('Bir hata oluştu: ' + (err as Error).message)
+      console.error('[STEP ERROR] Unexpected error:', err)
+      const error = err as Error
+      setError(`Beklenmeyen hata: ${error.message}`)
     } finally {
+      console.log('[STEP FINAL] Resetting loading state')
       setIsCreatingDM(null)
     }
   }

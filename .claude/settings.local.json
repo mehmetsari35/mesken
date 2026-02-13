@@ -30,7 +30,17 @@
       "Bash(gh repo create:*)",
       "Bash(git remote:*)",
       "Bash(git push:*)",
-      "mcp__chrome-devtools__emulate"
+      "mcp__chrome-devtools__emulate",
+      "mcp__chrome-devtools__fill_form",
+      "mcp__chrome-devtools__get_network_request",
+      "mcp__chrome-devtools__press_key",
+      "mcp__chrome-devtools__evaluate_script",
+      "Bash(printf:*)",
+      "Bash(cd:*)",
+      "Bash(timeout:*)",
+      "WebSearch",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }

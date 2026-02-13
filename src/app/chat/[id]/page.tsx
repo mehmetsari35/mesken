@@ -2,161 +2,175 @@
 
 export const dynamic = 'force-dynamic'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { ChatHeader } from '@/components/chat/chat-header'
-import { MessageItem } from '@/components/chat/message-item'
-import { MessageInput } from '@/components/chat/message-input'
+import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css'
+import {
+  MainContainer,
+  ChatContainer,
+  MessageList,
+  Message,
+  MessageInput,
+  ConversationHeader,
+  Avatar,
+} from '@chatscope/chat-ui-kit-react'
 import { Loading } from '@/components/ui/loading'
 import { useAuth } from '@/hooks/use-auth'
-import { useMessages } from '@/hooks/use-messages'
-import { useChatStore } from '@/stores/chat-store'
 import { getSupabaseClient } from '@/lib/supabase/client'
-import type { ConversationWithMembers } from '@/types/database'
+import type { MessageWithSender, ConversationWithMembers } from '@/types/database'
 
 export default function ChatPage() {
   const params = useParams()
   const router = useRouter()
   const conversationId = params.id as string
   const { user, isLoading: authLoading, isInitialized } = useAuth()
-  const {
-    messages,
-    isLoading: messagesLoading,
-    sendTextMessage,
-    sendVoiceMessage,
-    getVoiceUrl,
-  } = useMessages(conversationId)
+  const supabase = getSupabaseClient()
 
-  const { currentConversation, setCurrentConversation } = useChatStore()
-  const [isLoadingConversation, setIsLoadingConversation] = useState(true)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [messages, setMessages] = useState<MessageWithSender[]>([])
+  const [conversation, setConversation] = useState<ConversationWithMembers | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isSending, setIsSending] = useState(false)
 
-  // Fetch conversation details
+  // Fetch conversation and messages
   useEffect(() => {
-    const fetchConversation = async () => {
-      if (!conversationId) return
+    if (!conversationId || !user) return
 
-      setIsLoadingConversation(true)
-      const supabase = getSupabaseClient()
+    const fetchData = async () => {
+      setIsLoading(true)
 
-      const { data, error } = await supabase
+      // Fetch conversation
+      const { data: convData } = await supabase
         .from('conversations')
-        .select(
-          `
-          *,
-          members:conversation_members(
-            *,
-            profile:profiles(*)
-          )
-        `
-        )
+        .select(`*, members:conversation_members(*, profile:profiles(*))`)
         .eq('id', conversationId)
         .single()
 
-      if (error || !data) {
-        router.push('/app')
-        return
+      if (convData) {
+        setConversation(convData as ConversationWithMembers)
       }
 
-      setCurrentConversation(data as ConversationWithMembers)
-      setIsLoadingConversation(false)
+      // Fetch messages
+      const { data: msgData } = await supabase
+        .from('messages')
+        .select(`*, sender:profiles(*)`)
+        .eq('conversation_id', conversationId)
+        .order('created_at', { ascending: true })
+        .limit(100)
+
+      if (msgData) {
+        setMessages(msgData as MessageWithSender[])
+      }
+
+      setIsLoading(false)
     }
 
-    fetchConversation()
+    fetchData()
 
-    return () => {
-      setCurrentConversation(null)
+    // Polling for new messages every 2 seconds
+    const interval = setInterval(async () => {
+      const { data } = await supabase
+        .from('messages')
+        .select(`*, sender:profiles(*)`)
+        .eq('conversation_id', conversationId)
+        .order('created_at', { ascending: true })
+        .limit(100)
+
+      if (data) {
+        setMessages(data as MessageWithSender[])
+      }
+    }, 2000)
+
+    return () => clearInterval(interval)
+  }, [conversationId, user, supabase])
+
+  // Send message
+  const handleSend = async (text: string) => {
+    if (!text.trim() || !user || isSending) return
+
+    setIsSending(true)
+    const { data, error } = await supabase
+      .from('messages')
+      .insert({
+        conversation_id: conversationId,
+        sender_id: user.id,
+        type: 'text',
+        content: text.trim(),
+      } as never)
+      .select(`*, sender:profiles(*)`)
+      .single()
+
+    if (!error && data) {
+      setMessages(prev => [...prev, data as MessageWithSender])
     }
-  }, [conversationId, setCurrentConversation, router])
-
-  // Auto-scroll to bottom on new messages
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
-
-  const handleSendText = async (content: string) => {
-    await sendTextMessage(content)
+    setIsSending(false)
   }
 
-  const handleSendVoice = async (blob: Blob, duration: number) => {
-    await sendVoiceMessage(blob, duration)
+  // Format time
+  const formatTime = (dateStr: string) => {
+    return new Date(dateStr).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })
   }
 
-  const handleBack = () => {
-    router.push('/app')
-  }
-
-  // Show loading while auth is initializing
+  // Loading states
   if (authLoading || !isInitialized) {
     return <Loading fullScreen text="Yükleniyor..." />
   }
 
-  // Redirect to login if not authenticated
   if (!user) {
     router.push('/login')
     return <Loading fullScreen text="Yönlendiriliyor..." />
   }
 
-  if (isLoadingConversation || !currentConversation) {
+  if (isLoading || !conversation) {
     return <Loading fullScreen text="Sohbet yükleniyor..." />
   }
 
-  const isGroup = currentConversation.type === 'group'
+  // Get other user info
+  const otherMember = conversation.members?.find(m => m.user_id !== user.id)
+  const otherUser = otherMember?.profile
+  const displayName = conversation.type === 'group'
+    ? (conversation.name || 'Grup')
+    : (otherUser?.display_name || otherUser?.username || 'Kullanıcı')
 
   return (
-    <div className="h-screen flex flex-col bg-zinc-900">
-      {/* Header */}
-      <div className="flex-shrink-0 safe-area-top">
-        <ChatHeader
-          conversation={currentConversation}
-          currentUserId={user.id}
-          onBack={handleBack}
-        />
-      </div>
+    <div style={{ height: '100dvh', background: '#18181b' }}>
+      <MainContainer>
+        <ChatContainer>
+          <ConversationHeader>
+            <ConversationHeader.Back onClick={() => router.push('/app')} />
+            <Avatar name={displayName} src={otherUser?.avatar_url || undefined} />
+            <ConversationHeader.Content userName={displayName} info="Çevrimiçi" />
+          </ConversationHeader>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4">
-        {messagesLoading ? (
-          <div className="flex items-center justify-center h-full">
-            <Loading text="Mesajlar yükleniyor..." />
-          </div>
-        ) : messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-zinc-500">
-            <p className="text-sm">Henüz mesaj yok</p>
-            <p className="text-xs mt-1">İlk mesajı gönder!</p>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {messages.map((message, index) => {
-              const isOwn = message.sender_id === user.id
-              const showSender =
-                isGroup &&
-                !isOwn &&
-                (index === 0 ||
-                  messages[index - 1].sender_id !== message.sender_id)
+          <MessageList loading={isLoading}>
+            {messages.map((msg) => {
+              const isOwn = msg.sender_id === user.id
+              const senderName = msg.sender?.display_name || msg.sender?.username || ''
 
               return (
-                <MessageItem
-                  key={message.id}
-                  message={message}
-                  isOwn={isOwn}
-                  showSender={showSender}
-                  onGetVoiceUrl={getVoiceUrl}
-                />
+                <Message
+                  key={msg.id}
+                  model={{
+                    message: msg.content || '',
+                    sentTime: formatTime(msg.created_at),
+                    sender: senderName,
+                    direction: isOwn ? 'outgoing' : 'incoming',
+                    position: 'single',
+                  }}
+                >
+                  <Message.Footer sentTime={formatTime(msg.created_at)} />
+                </Message>
               )
             })}
-            <div ref={messagesEndRef} />
-          </div>
-        )}
-      </div>
+          </MessageList>
 
-      {/* Input */}
-      <div className="flex-shrink-0 pb-safe">
-        <MessageInput
-          onSendText={handleSendText}
-          onSendVoice={handleSendVoice}
-        />
-      </div>
+          <MessageInput
+            placeholder="Mesaj yaz..."
+            onSend={handleSend}
+            attachButton={false}
+            disabled={isSending}
+          />
+        </ChatContainer>
+      </MainContainer>
     </div>
   )
 }

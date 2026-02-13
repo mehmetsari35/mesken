@@ -88,18 +88,71 @@ export function useConversations() {
   // Create DM conversation
   const createDM = useCallback(
     async (otherUserId: string) => {
-      if (!user) return { data: null, error: new Error('Not authenticated') }
+      console.log('[createDM STEP 1] Starting createDM for otherUserId:', otherUserId)
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { data, error } = await (supabase.rpc as any)('get_or_create_dm', {
-        other_user_id: otherUserId,
-      })
+      if (!user) {
+        console.error('[createDM STEP 1.5] ERROR: No user in auth store')
+        return { data: null, error: new Error('Not authenticated - please log in again') }
+      }
+      console.log('[createDM STEP 2] Current user:', user.id)
 
-      if (!error) {
-        await fetchConversations()
+      // Verify session is still valid
+      try {
+        console.log('[createDM STEP 3] Verifying auth session...')
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
+
+        if (sessionError) {
+          console.error('[createDM STEP 3] Session error:', sessionError)
+          return { data: null, error: new Error(`Session error: ${sessionError.message}`) }
+        }
+
+        if (!sessionData.session) {
+          console.error('[createDM STEP 3] No active session!')
+          return { data: null, error: new Error('Session expired - please log in again') }
+        }
+        console.log('[createDM STEP 4] Session valid, user_id:', sessionData.session.user.id)
+      } catch (sessionCheckError) {
+        console.error('[createDM STEP 3] Session check failed:', sessionCheckError)
+        return { data: null, error: sessionCheckError as Error }
       }
 
-      return { data, error }
+      // Call the RPC function
+      try {
+        console.log('[createDM STEP 5] Calling get_or_create_dm RPC...')
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data, error } = await (supabase.rpc as any)('get_or_create_dm', {
+          other_user_id: otherUserId,
+        })
+
+        console.log('[createDM STEP 6] RPC response:', { data, error })
+
+        if (error) {
+          console.error('[createDM STEP 6] RPC error:', {
+            message: error.message,
+            code: error.code,
+            details: error.details,
+            hint: error.hint,
+          })
+          return { data: null, error }
+        }
+
+        if (!data) {
+          console.error('[createDM STEP 7] RPC returned null data')
+          return { data: null, error: new Error('Server returned empty response') }
+        }
+
+        console.log('[createDM STEP 8] Success! Conversation ID:', data)
+
+        // Refresh conversations list
+        console.log('[createDM STEP 9] Refreshing conversations...')
+        await fetchConversations()
+        console.log('[createDM STEP 10] Conversations refreshed')
+
+        return { data, error: null }
+      } catch (rpcError) {
+        console.error('[createDM STEP ERROR] RPC call threw exception:', rpcError)
+        return { data: null, error: rpcError as Error }
+      }
     },
     [supabase, user, fetchConversations]
   )
