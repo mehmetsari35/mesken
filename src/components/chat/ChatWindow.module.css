@@ -49,7 +49,6 @@
   opacity: 0.7;
 }
 
-/* WhatsApp tarzı sohbet arka planı */
 .messages {
   flex: 1;
   overflow-y: auto;
@@ -57,8 +56,7 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
-  background-color: var(--bg-chat);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3Cpattern id='p' width='40' height='40' patternUnits='userSpaceOnUse'%3E%3Cpath d='M20 2l2 2-2 2-2-2zm10 10l2 2-2 2-2-2zM10 12l2 2-2 2-2-2zm20 10l2 2-2 2-2-2zM0 22l2 2-2 2-2-2zm10 10l2 2-2 2-2-2zm20 0l2 2-2 2-2-2z' fill='%23000' fill-opacity='.03'/%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23p)' width='200' height='200'/%3E%3C/svg%3E");
+  background: var(--bg-chat);
 }
 
 .loadingMessages, .noMessages {
