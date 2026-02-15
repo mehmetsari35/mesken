@@ -1,23 +1,25 @@
 :root {
-  --primary: #0088cc;
-  --primary-light: #54b3e4;
-  --primary-dark: #006da3;
-  --secondary: #00b4d8;
-  --bg: #e8edf1;
-  --bg-dark: #dce3e8;
-  --white: #FFFFFF;
-  --text: #1a1a2e;
-  --text-light: #4a5568;
-  --text-muted: #a0aec0;
-  --border: #e2e8f0;
-  --danger: #e53e3e;
-  --success: #38a169;
-  --msg-sent: #e3f2fd;
-  --msg-sent-text: #1a1a2e;
-  --msg-received: #ffffff;
-  --header-bg: #0088cc;
-  --shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --primary: #00a884;
+  --primary-light: #25d366;
+  --primary-dark: #008f72;
+  --secondary: #53bdeb;
+  --bg: #0b141a;
+  --bg-dark: #111b21;
+  --bg-chat: #0b141a;
+  --white: #1f2c33;
+  --surface: #202c33;
+  --text: #e9edef;
+  --text-light: #8696a0;
+  --text-muted: #667781;
+  --border: #2a3942;
+  --danger: #ea4335;
+  --success: #00a884;
+  --msg-sent: #005c4b;
+  --msg-sent-text: #e9edef;
+  --msg-received: #202c33;
+  --header-bg: #202c33;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
   --radius: 12px;
   --radius-sm: 8px;
   --radius-full: 50%;
@@ -95,6 +97,6 @@ a {
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.9); }
+  from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }

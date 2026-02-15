@@ -5,23 +5,23 @@
   padding: 12px 16px;
   cursor: pointer;
   transition: background 0.15s ease;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid var(--border);
 }
 
 .item:hover {
-  background: #f0f2f5;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .item:active {
-  background: #e4e6e9;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .active {
-  background: #e3f2fd;
+  background: rgba(0, 168, 132, 0.12);
 }
 
 .active:hover {
-  background: #d6ebfa;
+  background: rgba(0, 168, 132, 0.16);
 }
 
 .content {
@@ -39,6 +39,7 @@
 .name {
   font-weight: 600;
   font-size: 0.95rem;
+  color: var(--text);
 }
 
 .time {
@@ -49,7 +50,7 @@
 
 .preview {
   font-size: 0.84rem;
-  color: var(--text-light);
+  color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

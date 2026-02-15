@@ -2,18 +2,17 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 10px;
-  background: var(--bg);
+  padding: 6px 10px;
+  background: var(--header-bg);
 }
 
 .input {
   flex: 1;
   padding: 10px 16px;
-  background: var(--white);
+  background: var(--bg);
   border-radius: 24px;
   font-size: 0.93rem;
   color: var(--text);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .input::placeholder {
@@ -27,24 +26,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--text-muted);
-  color: white;
+  background: var(--border);
+  color: var(--text-muted);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
 }
 
 .sendBtn.active {
   background: var(--primary);
-  transform: scale(1);
+  color: #fff;
 }
 
 .sendBtn.active:hover {
   background: var(--primary-dark);
-  transform: scale(1.05);
 }
 
 .sendBtn.active:active {
-  transform: scale(0.95);
+  transform: scale(0.92);
 }
 
 .sendBtn:disabled {

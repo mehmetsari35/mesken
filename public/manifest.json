@@ -4,8 +4,8 @@
   "description": "Güvende mesajlaş",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0088cc",
-  "theme_color": "#0088cc",
+  "background_color": "#0b141a",
+  "theme_color": "#0b141a",
   "orientation": "portrait",
   "icons": [
     {

@@ -1,7 +1,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,7 +11,7 @@
 }
 
 .modal {
-  background: var(--white);
+  background: var(--surface);
   border-radius: 16px;
   width: 100%;
   max-width: 420px;
@@ -32,16 +32,17 @@
 .header h3 {
   font-size: 1.1rem;
   font-weight: 700;
+  color: var(--text);
 }
 
 .closeBtn {
   padding: 6px;
   border-radius: var(--radius-sm);
-  color: var(--text-light);
+  color: var(--text-muted);
 }
 
 .closeBtn:hover {
-  background: var(--bg);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .searchBar {
@@ -87,12 +88,13 @@
 }
 
 .userItem:hover {
-  background: var(--bg);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .userName {
   font-weight: 500;
   font-size: 0.95rem;
+  color: var(--text);
 }
 
 .emptyText {
