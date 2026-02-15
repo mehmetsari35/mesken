@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../../hooks/useAuth'
-import { Search, Plus, LogOut } from 'lucide-react'
+import { Search, Plus, LogOut, Settings } from 'lucide-react'
 import Avatar from '../ui/Avatar'
 import ChatListItem from './ChatListItem'
 import NewChatModal from './NewChatModal'
@@ -20,16 +20,8 @@ export default function ChatSidebar({ conversations, loading, activeId, onSelect
     <>
       <div className={styles.header}>
         <div className={styles.userInfo}>
-          <Avatar username={user?.username} color={user?.avatar_color} size={36} />
+          <Avatar username={user?.username} color={user?.avatar_color} size={40} />
           <span className={styles.username}>{user?.username}</span>
-        </div>
-        <div className={styles.actions}>
-          <button onClick={() => setShowNewChat(true)} className={styles.iconBtn} title="Yeni sohbet">
-            <Plus size={22} />
-          </button>
-          <button onClick={logout} className={styles.iconBtn} title="Cikis yap">
-            <LogOut size={20} />
-          </button>
         </div>
       </div>
 
@@ -70,6 +62,23 @@ export default function ChatSidebar({ conversations, loading, activeId, onSelect
             />
           ))
         )}
+      </div>
+
+      {/* FAB - Yeni sohbet butonu */}
+      <button
+        onClick={() => setShowNewChat(true)}
+        className={styles.fab}
+        title="Yeni sohbet"
+      >
+        <Plus size={26} />
+      </button>
+
+      {/* Alt bar - Çıkış */}
+      <div className={styles.bottomBar}>
+        <button onClick={logout} className={styles.logoutBtn}>
+          <LogOut size={18} />
+          <span>Cikis Yap</span>
+        </button>
       </div>
 
       {showNewChat && (
