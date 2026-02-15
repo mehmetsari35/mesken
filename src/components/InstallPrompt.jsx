@@ -44,7 +44,7 @@ export default function InstallPrompt() {
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.logoIcon}>
-          <svg viewBox="0 0 1503 1504" width="120" height="120">
+          <svg viewBox="0 0 1503 1504" width="100" height="100">
             <circle cx="751.5" cy="752" r="751" fill="#2AABEE"/>
             <g transform="translate(1503,0) scale(-1,1)">
               <path d="M538.688 1050.86H392.94C362.314 1050.86 347.186 1050.86 337.962 1044.96C327.999 1038.5 321.911 1027.8 321.173 1015.99C320.619 1005.11 328.184 991.822 343.312 965.255L703.182 330.935C718.495 303.999 726.243 290.531 736.021 285.55C746.537 280.2 759.083 280.2 769.599 285.55C779.377 290.531 787.126 303.999 802.438 330.935L876.42 460.079L876.797 460.738C893.336 489.635 901.723 504.289 905.385 519.669C909.443 536.458 909.443 554.169 905.385 570.958C901.695 586.455 893.393 601.215 876.604 630.549L687.573 964.702L687.084 965.558C670.436 994.693 661.999 1009.46 650.306 1020.6C637.576 1032.78 622.263 1041.63 605.474 1046.62C590.161 1050.86 573.004 1050.86 538.688 1050.86Z" fill="white"/>
@@ -53,7 +53,7 @@ export default function InstallPrompt() {
           </svg>
         </div>
         <h1 className={styles.title}>MESKEN</h1>
-        <p className={styles.subtitle}>Uygulamayi ana ekrana yukleyin</p>
+        <p className={styles.subtitle}>Ana ekrana yukleyin</p>
 
         {isIOS ? (
           <div className={styles.iosGuide}>
