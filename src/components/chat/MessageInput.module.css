@@ -3,17 +3,20 @@
   align-items: center;
   gap: 8px;
   padding: 6px 10px;
+  padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px));
   background: var(--surface);
   border-top: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
 .input {
   flex: 1;
-  padding: 10px 16px;
+  padding: 11px 16px;
   background: var(--input-bg);
   border-radius: 22px;
-  font-size: 0.93rem;
+  font-size: 0.95rem;
   color: var(--text);
+  min-height: 44px;
 }
 
 .input::placeholder {
