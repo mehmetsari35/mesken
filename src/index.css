@@ -61,6 +61,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html, body, #root {
@@ -68,12 +69,21 @@ html, body, #root {
   height: 100%;
   width: 100%;
   overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 @supports (height: 100dvh) {
   html, body, #root {
     height: 100dvh;
   }
+}
+
+html {
+  overscroll-behavior: none;
 }
 
 body {
@@ -83,18 +93,33 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  user-select: none;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 input, button, textarea {
   font-family: inherit;
   border: none;
   outline: none;
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+
+input::selection, textarea::selection {
+  background: rgba(42, 171, 238, 0.3);
 }
 
 button {
   cursor: pointer;
   background: none;
-  -webkit-tap-highlight-color: transparent;
+}
+
+button:active {
+  opacity: 0.7;
+  transition: opacity 0.1s;
 }
 
 a {
@@ -102,21 +127,21 @@ a {
   color: inherit;
 }
 
+/* Scrollbar gizle - mobil hissi */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 0;
+  display: none;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
+/* Mesaj alanında text seçilebilir olsun */
+p, span {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--text-muted);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-light);
+/* Context menu engelle (uzun basma) */
+img, svg, button, a {
+  -webkit-touch-callout: none;
 }
 
 @keyframes fadeIn {

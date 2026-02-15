@@ -1,12 +1,15 @@
 {
   "name": "MESKEN",
   "short_name": "MESKEN",
-  "description": "Güvende mesajlaş",
+  "description": "Crafted by Mehmet Sarı",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#17212b",
   "theme_color": "#17212b",
   "orientation": "portrait",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "categories": ["social", "communication"],
   "icons": [
     {
       "src": "/icon-192.png",
