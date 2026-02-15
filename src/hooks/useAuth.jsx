@@ -39,8 +39,8 @@ export function AuthProvider({ children }) {
       return { error: 'Gecersiz davet kodu' }
     }
 
-    if (codeData.is_used) {
-      return { error: 'Bu davet kodu zaten kullanilmis' }
+    if (codeData.use_count >= codeData.max_uses) {
+      return { error: 'Bu davet kodu kullanim limitine ulasmis' }
     }
 
     // Check username uniqueness
@@ -77,10 +77,10 @@ export function AuthProvider({ children }) {
       return { error: 'Kullanici olusturulamadi: ' + error.message }
     }
 
-    // Mark invite code as used
+    // Increment invite code use count
     await supabase
       .from('invite_codes')
-      .update({ is_used: true, used_by: newUser.id })
+      .update({ use_count: codeData.use_count + 1 })
       .eq('id', codeData.id)
 
     setUser(newUser)

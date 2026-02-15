@@ -25,7 +25,7 @@ export default function SettingsModal({ onClose }) {
 
     const { error } = await supabase
       .from('invite_codes')
-      .insert({ code, is_used: false })
+      .insert({ code, max_uses: 5, use_count: 0 })
 
     if (!error) {
       setInviteCode(code)
@@ -95,7 +95,7 @@ export default function SettingsModal({ onClose }) {
                   {copied ? <Check size={18} /> : <Copy size={18} />}
                 </button>
               </div>
-              <p className={styles.codeHint}>Bu kodu arkadasinla paylas</p>
+              <p className={styles.codeHint}>Bu kod 5 kez kullanilabilir</p>
             </div>
           )}
         </div>
