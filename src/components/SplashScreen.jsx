@@ -38,7 +38,7 @@ export default function SplashScreen() {
           </svg>
         </div>
         <h1 className={styles.logo}>Mesken</h1>
-        <p className={styles.credit}>Crafted by Mehmet Sari</p>
+        <p className={styles.credit}>Crafted by Mehmet Sarı</p>
       </div>
     </div>
   )
