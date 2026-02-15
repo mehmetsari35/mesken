@@ -22,8 +22,8 @@ export default function SplashScreen() {
         <div className={styles.logoIcon}>
           <svg viewBox="0 0 120 120" className={styles.triangle}>
             <circle cx="60" cy="60" r="60" fill="#2AABEE"/>
-            <path d="M60 26 L93 80 L52 80 L44 66 Z" fill="white" strokeLinejoin="round" stroke="white" strokeWidth="4"/>
-            <path d="M40 62 L27 80 L48 80 Z" fill="white" strokeLinejoin="round" stroke="white" strokeWidth="4"/>
+            <path d="M60 28 L93 84 L60 84 L50 68 Z" fill="white" strokeLinejoin="round" stroke="white" strokeWidth="3"/>
+            <path d="M45 64 L28 84 L55 84 Z" fill="white" strokeLinejoin="round" stroke="white" strokeWidth="3"/>
           </svg>
         </div>
         <h1 className={styles.logo}>Mesken</h1>
