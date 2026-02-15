@@ -1,7 +1,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,9 +12,9 @@
 
 .modal {
   background: var(--surface);
-  border-radius: 20px;
+  border-radius: 16px;
   width: 100%;
-  max-width: 380px;
+  max-width: 360px;
   box-shadow: var(--shadow-lg);
   animation: slideUp 0.3s ease;
   overflow: hidden;
@@ -24,48 +24,48 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px 22px 10px;
+  padding: 18px 18px 8px;
 }
 
 .header h3 {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--text);
 }
 
 .closeBtn {
-  padding: 8px;
+  padding: 6px;
   border-radius: var(--radius-sm);
   color: var(--text-muted);
 }
 
 .closeBtn:hover {
-  background: rgba(128, 128, 128, 0.1);
+  background: var(--hover);
 }
 
 .profile {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 20px;
+  gap: 8px;
+  padding: 16px;
 }
 
 .profileName {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--text);
 }
 
 .section {
-  padding: 4px 14px;
+  padding: 2px 12px;
 }
 
 .settingItem {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 12px;
+  gap: 12px;
+  padding: 12px 10px;
   border-radius: var(--radius-sm);
   width: 100%;
   color: var(--text);
@@ -73,22 +73,18 @@
 }
 
 .settingItem:hover {
-  background: rgba(128, 128, 128, 0.08);
-}
-
-.settingItem:active {
-  background: rgba(128, 128, 128, 0.14);
+  background: var(--hover);
 }
 
 .settingLabel {
   flex: 1;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
   text-align: left;
 }
 
 .settingValue {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 
@@ -97,12 +93,12 @@
 }
 
 .dangerItem:hover {
-  background: rgba(234, 67, 53, 0.08);
+  background: rgba(239, 68, 68, 0.06);
 }
 
 /* Davet kodu */
 .inviteResult {
-  padding: 14px 12px;
+  padding: 12px 10px;
 }
 
 .inviteHeader {
@@ -111,7 +107,7 @@
   gap: 10px;
   color: var(--text);
   font-weight: 500;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .inviteIcon {
@@ -122,24 +118,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  background: var(--bg);
+  padding: 10px 14px;
+  background: var(--input-bg);
   border-radius: var(--radius-sm);
   border: 1px solid var(--primary);
 }
 
 .codeText {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--primary);
   letter-spacing: 1px;
 }
 
 .copyBtn {
-  padding: 6px;
-  border-radius: 6px;
+  padding: 4px;
+  border-radius: 4px;
   color: var(--primary);
-  transition: all var(--transition);
 }
 
 .copyBtn:hover {
@@ -147,38 +142,37 @@
 }
 
 .codeHint {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
-  margin-top: 8px;
+  margin-top: 6px;
   text-align: center;
 }
 
 /* Çıkış onay */
 .confirmBox {
-  padding: 16px 12px;
+  padding: 14px 10px;
   text-align: center;
 }
 
 .confirmText {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .confirmActions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .cancelBtn {
   flex: 1;
-  padding: 12px;
+  padding: 10px;
   border-radius: var(--radius-sm);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--text);
-  background: var(--bg);
-  transition: all var(--transition);
+  background: var(--input-bg);
 }
 
 .cancelBtn:hover {
@@ -187,13 +181,12 @@
 
 .confirmBtn {
   flex: 1;
-  padding: 12px;
+  padding: 10px;
   border-radius: var(--radius-sm);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #fff;
   background: var(--danger);
-  transition: all var(--transition);
 }
 
 .confirmBtn:hover {

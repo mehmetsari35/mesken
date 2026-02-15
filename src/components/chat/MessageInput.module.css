@@ -1,24 +1,19 @@
 .container {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  background: var(--header-bg);
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
 }
 
 .input {
   flex: 1;
-  padding: 12px 18px;
-  background: var(--bg);
-  border-radius: 24px;
-  font-size: 1rem;
+  padding: 10px 16px;
+  background: var(--input-bg);
+  border-radius: 22px;
+  font-size: 0.93rem;
   color: var(--text);
-  border: 1px solid var(--border);
-  transition: border-color var(--transition);
-}
-
-.input:focus {
-  border-color: var(--primary);
 }
 
 .input::placeholder {
@@ -26,13 +21,13 @@
 }
 
 .sendBtn {
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--border);
+  background: var(--input-bg);
   color: var(--text-muted);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
@@ -41,7 +36,6 @@
 .sendBtn.active {
   background: var(--primary);
   color: #fff;
-  box-shadow: 0 2px 10px rgba(248, 95, 106, 0.35);
 }
 
 .sendBtn.active:hover {
@@ -49,7 +43,7 @@
 }
 
 .sendBtn.active:active {
-  transform: scale(0.92);
+  transform: scale(0.9);
 }
 
 .sendBtn:disabled {

@@ -11,7 +11,7 @@ export function ThemeProvider({ children }) {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('mesken-theme', theme)
 
-    const themeColor = theme === 'light' ? '#f5f5f5' : '#0b0f12'
+    const themeColor = theme === 'light' ? '#F85F6A' : '#1f2c34'
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColor)
   }, [theme])
 

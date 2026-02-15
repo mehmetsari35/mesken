@@ -1,53 +1,55 @@
+/* KOYU TEMA (varsayılan) - WhatsApp Dark + #F85F6A */
 :root {
   --primary: #F85F6A;
   --primary-light: #ff7a83;
   --primary-dark: #e04955;
   --secondary: #ff9ba2;
-  --bg: #0b0f12;
-  --bg-dark: #0f1418;
-  --bg-chat: #0b0f12;
-  --white: #1a1f25;
-  --surface: #1a1f25;
-  --text: #eef0f2;
-  --text-light: #8a929a;
-  --text-muted: #636d77;
-  --border: #252b33;
-  --danger: #ea4335;
-  --success: #34d399;
+  --bg: #111b21;
+  --bg-dark: #0b141a;
+  --bg-chat: #0b141a;
+  --white: #202c33;
+  --surface: #1f2c34;
+  --text: #e9edef;
+  --text-light: #8696a0;
+  --text-muted: #667781;
+  --border: #233138;
+  --danger: #ef4444;
+  --success: #25d366;
   --msg-sent: #F85F6A;
   --msg-sent-text: #ffffff;
-  --msg-received: #1a1f25;
-  --header-bg: #141920;
-  --header-text: var(--text);
+  --msg-received: #202c33;
+  --header-bg: #1f2c34;
+  --header-text: #e9edef;
+  --input-bg: #2a3942;
+  --hover: rgba(255, 255, 255, 0.06);
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --radius: 14px;
-  --radius-sm: 10px;
+  --radius: 12px;
+  --radius-sm: 8px;
   --radius-full: 50%;
   --transition: 0.2s ease;
-  --chat-pattern-color: #161b22;
-  --chat-pattern-opacity: 0.5;
 }
 
+/* AÇIK TEMA - WhatsApp Light + #F85F6A */
 :root[data-theme="light"] {
   --bg: #f0f2f5;
-  --bg-dark: #f0f2f5;
+  --bg-dark: #ffffff;
   --bg-chat: #efeae2;
   --white: #ffffff;
   --surface: #ffffff;
   --text: #111b21;
   --text-light: #54656f;
   --text-muted: #8696a0;
-  --border: #e9edef;
+  --border: #d1d7db;
   --msg-sent: #F85F6A;
   --msg-sent-text: #ffffff;
   --msg-received: #ffffff;
   --header-bg: #F85F6A;
   --header-text: #ffffff;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
-  --chat-pattern-color: #d4cbc2;
-  --chat-pattern-opacity: 0.3;
+  --input-bg: #f0f2f5;
+  --hover: rgba(0, 0, 0, 0.04);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 * {

@@ -2,33 +2,34 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 18px;
+  padding: 14px 16px;
   background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
 }
 
 .userInfo {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .username {
-  font-weight: 700;
-  font-size: 1.15rem;
+  font-weight: 600;
+  font-size: 1.1rem;
   color: var(--header-text);
 }
 
 .settingsBtn {
-  padding: 10px;
+  padding: 8px;
   border-radius: 50%;
   color: var(--header-text);
-  opacity: 0.8;
+  opacity: 0.85;
   transition: all var(--transition);
 }
 
 .settingsBtn:hover {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .settingsBtn:active {
@@ -36,32 +37,25 @@
 }
 
 .searchBar {
-  padding: 8px 14px;
+  padding: 8px 12px;
   position: relative;
   display: flex;
   align-items: center;
-  background: var(--header-bg);
 }
 
 .searchIcon {
   position: absolute;
-  left: 28px;
+  left: 24px;
   color: var(--text-muted);
 }
 
 .searchInput {
   width: 100%;
-  padding: 12px 14px 12px 44px;
-  background: var(--bg);
-  border-radius: 24px;
-  font-size: 0.95rem;
+  padding: 10px 12px 10px 40px;
+  background: var(--input-bg);
+  border-radius: 8px;
+  font-size: 0.9rem;
   color: var(--text);
-  border: 1px solid var(--border);
-  transition: border-color var(--transition);
-}
-
-.searchInput:focus {
-  border-color: var(--primary);
 }
 
 .searchInput::placeholder {
@@ -80,12 +74,12 @@
   align-items: center;
   justify-content: center;
   padding: 48px 20px;
-  gap: 18px;
+  gap: 16px;
 }
 
 .emptyText, .loadingText {
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .loadingText {
@@ -93,11 +87,11 @@
 }
 
 .startBtn {
-  padding: 12px 28px;
+  padding: 10px 24px;
   background: var(--primary);
   color: #fff;
-  border-radius: 24px;
-  font-size: 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
   font-weight: 600;
   transition: all var(--transition);
 }
@@ -110,29 +104,29 @@
   transform: scale(0.96);
 }
 
-/* FAB - Telegram tarzı floating button */
+/* FAB */
 .fab {
   position: absolute;
-  bottom: 24px;
-  right: 18px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
+  bottom: 20px;
+  right: 16px;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
   background: var(--primary);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(248, 95, 106, 0.4);
+  box-shadow: 0 4px 14px rgba(248, 95, 106, 0.35);
   transition: all 0.25s ease;
   z-index: 10;
 }
 
 .fab:hover {
   background: var(--primary-dark);
-  transform: scale(1.06);
+  box-shadow: 0 6px 20px rgba(248, 95, 106, 0.45);
 }
 
 .fab:active {
-  transform: scale(0.94);
+  transform: scale(0.92);
 }

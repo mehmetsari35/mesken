@@ -5,12 +5,12 @@
 }
 
 .sidebar {
-  width: 380px;
-  min-width: 380px;
+  width: 360px;
+  min-width: 360px;
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  background: var(--white);
+  background: var(--bg-dark);
   position: relative;
 }
 
