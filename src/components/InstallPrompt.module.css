@@ -1,17 +1,22 @@
 .banner {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 20px;
+  padding: 10px 16px;
   background: var(--surface);
   color: var(--text);
   z-index: 1000;
-  animation: slideUp 0.4s ease;
-  border-top: 1px solid var(--border);
+  animation: slideDown 0.4s ease;
+  border-bottom: 1px solid var(--border);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-100%); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .content {
