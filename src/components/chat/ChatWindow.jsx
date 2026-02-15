@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { useMessages } from '../../hooks/useMessages'
-import { ArrowLeft, MessageCircle } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import Avatar from '../ui/Avatar'
 import MessageBubble from './MessageBubble'
 import MessageInput from './MessageInput'
@@ -19,8 +19,10 @@ export default function ChatWindow({ conversation, onBack }) {
   if (!conversation) {
     return (
       <div className={styles.empty}>
-        <MessageCircle size={64} strokeWidth={1} className={styles.emptyIcon} />
-        <h3>MESKEN</h3>
+        <svg viewBox="0 0 100 100" className={styles.emptyIcon} width="64" height="64">
+          <polygon points="50,10 90,75 10,75" fill="#2AABEE"/>
+        </svg>
+        <h3>Mesken</h3>
         <p>Bir sohbet secin veya yeni bir sohbet baslatin</p>
       </div>
     )

@@ -73,7 +73,10 @@ export default function LoginPage() {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.header}>
-          <h1 className={styles.logo}>MESKEN</h1>
+          <svg viewBox="0 0 100 100" className={styles.logoIcon} width="48" height="48">
+            <polygon points="50,10 90,75 10,75" fill="#2AABEE"/>
+          </svg>
+          <h1 className={styles.logo}>Mesken</h1>
         </div>
 
         <div className={styles.tabs}>

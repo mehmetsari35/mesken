@@ -80,7 +80,6 @@
 }
 
 .emptyIcon {
-  color: var(--primary);
   margin-bottom: 6px;
   opacity: 0.4;
 }
