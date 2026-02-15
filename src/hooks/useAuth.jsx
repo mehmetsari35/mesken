@@ -3,6 +3,14 @@ import { supabase } from '../lib/supabase'
 
 const AuthContext = createContext(null)
 
+async function hashPassword(password) {
+  const encoder = new TextEncoder()
+  const data = encoder.encode(password)
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+}
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -19,62 +27,89 @@ export function AuthProvider({ children }) {
     setLoading(false)
   }, [])
 
-  const validateInviteCode = async (code) => {
-    const { data, error } = await supabase
+  const register = async (username, password, inviteCode) => {
+    // Validate invite code
+    const { data: codeData, error: codeError } = await supabase
       .from('invite_codes')
       .select('*')
-      .eq('code', code.toUpperCase())
+      .eq('code', inviteCode.toUpperCase())
       .single()
 
-    if (error || !data) {
-      return { valid: false, error: 'Geçersiz davet kodu' }
+    if (codeError || !codeData) {
+      return { error: 'Gecersiz davet kodu' }
     }
 
-    if (data.is_used && data.used_by) {
-      const { data: existingUser } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', data.used_by)
-        .single()
-
-      if (existingUser) {
-        const userData = existingUser
-        setUser(userData)
-        localStorage.setItem('mesken_user', JSON.stringify(userData))
-        return { valid: true, existingUser: true, user: userData }
-      }
+    if (codeData.is_used) {
+      return { error: 'Bu davet kodu zaten kullanilmis' }
     }
 
-    return { valid: true, existingUser: false, codeId: data.id, code: data.code }
-  }
+    // Check username uniqueness
+    const { data: existing } = await supabase
+      .from('users')
+      .select('id')
+      .eq('username', username.trim())
+      .single()
 
-  const createUser = async (username, codeId, code) => {
+    if (existing) {
+      return { error: 'Bu kullanici adi zaten alinmis' }
+    }
+
+    // Hash password
+    const passwordHash = await hashPassword(password)
+
+    // Create user
     const avatarColors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9']
     const avatarColor = avatarColors[Math.floor(Math.random() * avatarColors.length)]
 
     const { data: newUser, error } = await supabase
       .from('users')
       .insert({
-        username,
-        invite_code: code,
+        username: username.trim(),
+        invite_code: codeData.code,
         avatar_color: avatarColor,
+        password_hash: passwordHash,
         online: true
       })
       .select()
       .single()
 
     if (error) {
-      return { error: 'Kullanıcı oluşturulamadı: ' + error.message }
+      return { error: 'Kullanici olusturulamadi: ' + error.message }
     }
 
+    // Mark invite code as used
     await supabase
       .from('invite_codes')
       .update({ is_used: true, used_by: newUser.id })
-      .eq('id', codeId)
+      .eq('id', codeData.id)
 
     setUser(newUser)
     localStorage.setItem('mesken_user', JSON.stringify(newUser))
     return { user: newUser }
+  }
+
+  const login = async (username, password) => {
+    const passwordHash = await hashPassword(password)
+
+    const { data: foundUser, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('username', username.trim())
+      .single()
+
+    if (error || !foundUser) {
+      return { error: 'Kullanici bulunamadi' }
+    }
+
+    if (foundUser.password_hash !== passwordHash) {
+      return { error: 'Sifre hatali' }
+    }
+
+    await supabase.from('users').update({ online: true }).eq('id', foundUser.id)
+
+    setUser(foundUser)
+    localStorage.setItem('mesken_user', JSON.stringify(foundUser))
+    return { user: foundUser }
   }
 
   const logout = () => {
@@ -86,7 +121,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, validateInviteCode, createUser, logout }}>
+    <AuthContext.Provider value={{ user, loading, register, login, logout }}>
       {children}
     </AuthContext.Provider>
   )

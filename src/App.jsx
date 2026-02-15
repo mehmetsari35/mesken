@@ -3,6 +3,7 @@ import { useAuth } from './hooks/useAuth'
 import SplashScreen from './components/SplashScreen'
 import LoginPage from './components/LoginPage'
 import ChatLayout from './components/chat/ChatLayout'
+import InstallPrompt from './components/InstallPrompt'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -12,19 +13,22 @@ function ProtectedRoute({ children }) {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<SplashScreen />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/chat"
-        element={
-          <ProtectedRoute>
-            <ChatLayout />
-          </ProtectedRoute>
-        }
-      />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <>
+      <InstallPrompt />
+      <Routes>
+        <Route path="/" element={<SplashScreen />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <ChatLayout />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   )
 }
 

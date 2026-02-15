@@ -68,6 +68,10 @@ CREATE POLICY "Allow all on invite_codes" ON invite_codes FOR ALL USING (true) W
 ALTER PUBLICATION supabase_realtime ADD TABLE messages;
 ALTER PUBLICATION supabase_realtime ADD TABLE conversation_participants;
 
+-- v2: Şifre desteği
+ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash TEXT;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username);
+
 -- Örnek davet kodları
 INSERT INTO invite_codes (code) VALUES
   ('MESKEN'),

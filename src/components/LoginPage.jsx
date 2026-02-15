@@ -1,71 +1,72 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { KeyRound, User, ArrowRight, Loader2 } from 'lucide-react'
+import { KeyRound, User, Lock, ArrowRight, Loader2 } from 'lucide-react'
 import styles from './LoginPage.module.css'
 
 export default function LoginPage() {
   const navigate = useNavigate()
-  const { user, validateInviteCode, createUser } = useAuth()
-  const [step, setStep] = useState('code')
-  const [code, setCode] = useState('')
+  const { user, register, login } = useAuth()
+  const [tab, setTab] = useState('login')
   const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [inviteCode, setInviteCode] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [codeData, setCodeData] = useState(null)
 
   if (user) {
     navigate('/chat', { replace: true })
     return null
   }
 
-  const handleCodeSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
-    if (code.length < 4) {
-      setError('Davet kodunu girin')
+    if (!username.trim() || !password) {
+      setError('Kullanici adi ve sifre girin')
       return
     }
-
     setLoading(true)
     setError('')
-
-    const result = await validateInviteCode(code)
-
-    if (!result.valid) {
-      setError(result.error)
-      setLoading(false)
-      return
-    }
-
-    if (result.existingUser) {
-      navigate('/chat', { replace: true })
-      return
-    }
-
-    setCodeData({ codeId: result.codeId, code: result.code })
-    setStep('username')
-    setLoading(false)
-  }
-
-  const handleUsernameSubmit = async (e) => {
-    e.preventDefault()
-    if (username.trim().length < 2) {
-      setError('Kullanici adi en az 2 karakter olmali')
-      return
-    }
-
-    setLoading(true)
-    setError('')
-
-    const result = await createUser(username.trim(), codeData.codeId, codeData.code)
-
+    const result = await login(username, password)
     if (result.error) {
       setError(result.error)
       setLoading(false)
       return
     }
-
     navigate('/chat', { replace: true })
+  }
+
+  const handleRegister = async (e) => {
+    e.preventDefault()
+    if (!inviteCode.trim()) {
+      setError('Davet kodunu girin')
+      return
+    }
+    if (!username.trim() || username.trim().length < 2) {
+      setError('Kullanici adi en az 2 karakter olmali')
+      return
+    }
+    if (!password || password.length < 4) {
+      setError('Sifre en az 4 karakter olmali')
+      return
+    }
+    setLoading(true)
+    setError('')
+    const result = await register(username, password, inviteCode)
+    if (result.error) {
+      setError(result.error)
+      setLoading(false)
+      return
+    }
+    navigate('/chat', { replace: true })
+  }
+
+  const switchTab = (newTab) => {
+    setTab(newTab)
+    setError('')
+    setUsername('')
+    setPassword('')
+    setInviteCode('')
   }
 
   return (
@@ -73,60 +74,97 @@ export default function LoginPage() {
       <div className={styles.card}>
         <div className={styles.header}>
           <h1 className={styles.logo}>MESKEN</h1>
-          <p className={styles.subtitle}>
-            {step === 'code' ? 'Davet kodunuzu girin' : 'Kullanici adinizi secin'}
-          </p>
         </div>
 
-        {step === 'code' ? (
-          <form onSubmit={handleCodeSubmit} className={styles.form}>
-            <div className={styles.inputGroup}>
-              <KeyRound size={20} className={styles.inputIcon} />
-              <input
-                type="text"
-                value={code}
-                onChange={(e) => {
-                  setCode(e.target.value.toUpperCase())
-                  setError('')
-                }}
-                placeholder="Davet kodu"
-                className={styles.input}
-                maxLength={10}
-                autoFocus
-              />
-            </div>
-            {error && <p className={styles.error}>{error}</p>}
-            <button type="submit" className={styles.button} disabled={loading}>
-              {loading ? <Loader2 size={20} className={styles.spinner} /> : (
-                <>
-                  Devam Et
-                  <ArrowRight size={18} />
-                </>
-              )}
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleUsernameSubmit} className={styles.form}>
+        <div className={styles.tabs}>
+          <button
+            className={`${styles.tab} ${tab === 'login' ? styles.tabActive : ''}`}
+            onClick={() => switchTab('login')}
+          >
+            Giris Yap
+          </button>
+          <button
+            className={`${styles.tab} ${tab === 'register' ? styles.tabActive : ''}`}
+            onClick={() => switchTab('register')}
+          >
+            Kayit Ol
+          </button>
+        </div>
+
+        {tab === 'login' ? (
+          <form onSubmit={handleLogin} className={styles.form}>
             <div className={styles.inputGroup}>
               <User size={20} className={styles.inputIcon} />
               <input
                 type="text"
                 value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value)
-                  setError('')
-                }}
+                onChange={(e) => { setUsername(e.target.value); setError('') }}
                 placeholder="Kullanici adi"
                 className={styles.input}
                 maxLength={20}
                 autoFocus
               />
             </div>
+            <div className={styles.inputGroup}>
+              <Lock size={20} className={styles.inputIcon} />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setError('') }}
+                placeholder="Sifre"
+                className={styles.input}
+              />
+            </div>
             {error && <p className={styles.error}>{error}</p>}
             <button type="submit" className={styles.button} disabled={loading}>
               {loading ? <Loader2 size={20} className={styles.spinner} /> : (
                 <>
-                  Hesap Olustur
+                  Giris Yap
+                  <ArrowRight size={18} />
+                </>
+              )}
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={handleRegister} className={styles.form}>
+            <div className={styles.inputGroup}>
+              <KeyRound size={20} className={styles.inputIcon} />
+              <input
+                type="text"
+                value={inviteCode}
+                onChange={(e) => { setInviteCode(e.target.value.toUpperCase()); setError('') }}
+                placeholder="Davet kodu"
+                className={styles.input}
+                maxLength={10}
+                autoFocus
+              />
+            </div>
+            <div className={styles.inputGroup}>
+              <User size={20} className={styles.inputIcon} />
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => { setUsername(e.target.value); setError('') }}
+                placeholder="Kullanici adi"
+                className={styles.input}
+                maxLength={20}
+              />
+            </div>
+            <div className={styles.inputGroup}>
+              <Lock size={20} className={styles.inputIcon} />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setError('') }}
+                placeholder="Sifre"
+                className={styles.input}
+              />
+            </div>
+            {error && <p className={styles.error}>{error}</p>}
+            <button type="submit" className={styles.button} disabled={loading}>
+              {loading ? <Loader2 size={20} className={styles.spinner} /> : (
+                <>
+                  Kayit Ol
                   <ArrowRight size={18} />
                 </>
               )}

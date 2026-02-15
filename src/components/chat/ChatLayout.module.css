@@ -21,13 +21,19 @@
 }
 
 @media (max-width: 768px) {
+  .layout {
+    position: relative;
+  }
+
   .sidebar {
     width: 100%;
     min-width: 100%;
+    transition: transform 0.25s ease;
   }
 
   .main {
     width: 100%;
+    transition: transform 0.25s ease;
   }
 
   .hideMobile {

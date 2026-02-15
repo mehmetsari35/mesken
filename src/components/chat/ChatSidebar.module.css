@@ -2,8 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  background: var(--header-bg);
+  color: white;
 }
 
 .userInfo {
@@ -15,35 +16,37 @@
 .username {
   font-weight: 600;
   font-size: 1.05rem;
+  color: white;
 }
 
 .actions {
   display: flex;
-  gap: 4px;
+  gap: 2px;
 }
 
 .iconBtn {
   padding: 8px;
   border-radius: var(--radius-sm);
-  color: var(--text-light);
+  color: rgba(255, 255, 255, 0.85);
   transition: all var(--transition);
 }
 
 .iconBtn:hover {
-  background: var(--bg);
-  color: var(--primary);
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
 }
 
 .searchBar {
-  padding: 12px 20px;
+  padding: 8px 12px;
   position: relative;
   display: flex;
   align-items: center;
+  background: var(--white);
 }
 
 .searchIcon {
   position: absolute;
-  left: 32px;
+  left: 24px;
   color: var(--text-muted);
 }
 
@@ -51,7 +54,7 @@
   width: 100%;
   padding: 10px 12px 10px 40px;
   background: var(--bg);
-  border-radius: var(--radius);
+  border-radius: 20px;
   font-size: 0.9rem;
   color: var(--text);
 }
@@ -63,6 +66,7 @@
 .list {
   flex: 1;
   overflow-y: auto;
+  background: var(--white);
 }
 
 .empty {
@@ -87,10 +91,10 @@
   padding: 10px 24px;
   background: var(--primary);
   color: white;
-  border-radius: var(--radius);
+  border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 600;
-  transition: background var(--transition);
+  transition: all var(--transition);
 }
 
 .startBtn:hover {
