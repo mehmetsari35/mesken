@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Download } from 'lucide-react'
+import { Download, ArrowUpFromLine } from 'lucide-react'
 import styles from './InstallPrompt.module.css'
 
 function isStandalone() {
   return window.matchMedia('(display-mode: standalone)').matches
     || window.navigator.standalone === true
 }
+
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
 
 export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState(null)
@@ -53,10 +55,17 @@ export default function InstallPrompt() {
         <h1 className={styles.title}>MESKEN</h1>
         <p className={styles.subtitle}>Uygulamayi ana ekrana yukleyin</p>
 
-        <button onClick={handleInstall} className={styles.installBtn} disabled={!deferredPrompt}>
-          <Download size={20} />
-          Indir
-        </button>
+        {isIOS ? (
+          <div className={styles.iosGuide}>
+            <ArrowUpFromLine size={22} />
+            <p>Alttaki <strong>paylas</strong> ikonuna basin, sonra <strong>Ana Ekrana Ekle</strong> secin</p>
+          </div>
+        ) : (
+          <button onClick={handleInstall} className={styles.installBtn} disabled={!deferredPrompt}>
+            <Download size={20} />
+            Indir
+          </button>
+        )}
       </div>
     </div>
   )
