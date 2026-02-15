@@ -57,8 +57,18 @@ export default function InstallPrompt() {
 
         {isIOS ? (
           <div className={styles.iosGuide}>
-            <ArrowUpFromLine size={22} />
-            <p>Alttaki <strong>paylas</strong> ikonuna basin, sonra <strong>Ana Ekrana Ekle</strong> secin</p>
+            <div className={styles.iosStep}>
+              <div className={styles.stepNum}>1</div>
+              <p>Safari alt barindaki <strong>paylas</strong> ikonuna <ArrowUpFromLine size={16} className={styles.inlineIcon} /> basin</p>
+            </div>
+            <div className={styles.iosStep}>
+              <div className={styles.stepNum}>2</div>
+              <p>Asagi kaydirup <strong>Ana Ekrana Ekle</strong> secenegine basin</p>
+            </div>
+            <div className={styles.iosStep}>
+              <div className={styles.stepNum}>3</div>
+              <p>Sag ustten <strong>Ekle</strong> butonuna basin</p>
+            </div>
           </div>
         ) : (
           <button onClick={handleInstall} className={styles.installBtn} disabled={!deferredPrompt}>

@@ -61,24 +61,50 @@
 .iosGuide {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  gap: 16px;
   padding: 20px;
   background: var(--surface);
   border-radius: 16px;
   width: 100%;
   border: 1px solid var(--border);
-  color: var(--primary);
 }
 
-.iosGuide p {
+.iosStep {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+}
+
+.stepNum {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.iosStep p {
   color: var(--text-light);
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 0.88rem;
+  line-height: 1.4;
 }
 
-.iosGuide strong {
+.iosStep strong {
+  color: var(--text);
+}
+
+.inlineIcon {
+  display: inline-block;
+  vertical-align: middle;
   color: var(--primary);
+  margin: 0 2px;
 }
 
 @keyframes fadeIn {
