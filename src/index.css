@@ -1,9 +1,9 @@
-/* KOYU TEMA - Telegram Dark + #F85F6A */
+/* KOYU TEMA - Telegram Dark + Telegram Blue */
 :root {
-  --primary: #F85F6A;
-  --primary-light: #ff7a83;
-  --primary-dark: #e04955;
-  --secondary: #ff9ba2;
+  --primary: #2AABEE;
+  --primary-light: #52b6e6;
+  --primary-dark: #1c96d1;
+  --secondary: #6ec5ed;
   --bg: #17212b;
   --bg-dark: #0e1621;
   --bg-chat: #0e1621;
@@ -15,7 +15,7 @@
   --border: #1e2c3a;
   --danger: #ef4444;
   --success: #4fae4e;
-  --msg-sent: #F85F6A;
+  --msg-sent: #2B5278;
   --msg-sent-text: #ffffff;
   --msg-received: #182533;
   --header-bg: #17212b;
