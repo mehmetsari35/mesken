@@ -15,22 +15,23 @@
 .username {
   font-weight: 700;
   font-size: 1.15rem;
-  color: var(--text);
+  color: var(--header-text);
 }
 
-.themeBtn {
+.settingsBtn {
   padding: 10px;
   border-radius: 50%;
-  color: var(--text-muted);
+  color: var(--header-text);
+  opacity: 0.8;
   transition: all var(--transition);
 }
 
-.themeBtn:hover {
-  background: rgba(248, 95, 106, 0.1);
-  color: var(--primary);
+.settingsBtn:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.15);
 }
 
-.themeBtn:active {
+.settingsBtn:active {
   transform: scale(0.9);
 }
 
@@ -112,7 +113,7 @@
 /* FAB - Telegram tarzı floating button */
 .fab {
   position: absolute;
-  bottom: 80px;
+  bottom: 24px;
   right: 18px;
   width: 56px;
   height: 56px;
@@ -134,29 +135,4 @@
 
 .fab:active {
   transform: scale(0.94);
-}
-
-/* Alt bar - Çıkış yap */
-.bottomBar {
-  padding: 12px 18px;
-  background: var(--header-bg);
-  border-top: 1px solid var(--border);
-}
-
-.logoutBtn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
-  border-radius: var(--radius-sm);
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  font-weight: 500;
-  width: 100%;
-  transition: all var(--transition);
-}
-
-.logoutBtn:hover {
-  background: rgba(234, 67, 53, 0.1);
-  color: var(--danger);
 }
