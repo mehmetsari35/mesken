@@ -21,7 +21,7 @@ export default function SettingsModal({ onClose }) {
 
   const generateInviteCode = async () => {
     setCreatingCode(true)
-    const code = 'MESKEN-' + Math.random().toString(36).substring(2, 8).toUpperCase()
+    const code = Math.random().toString(36).substring(2, 8).toUpperCase()
 
     const { error } = await supabase
       .from('invite_codes')

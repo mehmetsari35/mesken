@@ -142,7 +142,7 @@ export default function LoginPage() {
                 onChange={(e) => { setInviteCode(e.target.value.toUpperCase()); setError('') }}
                 placeholder="Davet kodu"
                 className={styles.input}
-                maxLength={10}
+                maxLength={20}
                 autoFocus
               />
             </div>
