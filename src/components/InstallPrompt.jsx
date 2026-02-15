@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Download, Share, Plus, MoreVertical } from 'lucide-react'
+import { Download } from 'lucide-react'
 import styles from './InstallPrompt.module.css'
 
 function isStandalone() {
@@ -7,17 +7,9 @@ function isStandalone() {
     || window.navigator.standalone === true
 }
 
-function getDeviceType() {
-  const ua = navigator.userAgent
-  if (/iPad|iPhone|iPod/.test(ua)) return 'ios'
-  if (/Android/.test(ua)) return 'android'
-  return 'desktop'
-}
-
 export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState(null)
   const [installed, setInstalled] = useState(isStandalone())
-  const device = getDeviceType()
 
   useEffect(() => {
     if (isStandalone()) {
@@ -59,43 +51,12 @@ export default function InstallPrompt() {
           </svg>
         </div>
         <h1 className={styles.title}>MESKEN</h1>
-        <p className={styles.subtitle}>Uygulamayi yukleyerek devam edin</p>
+        <p className={styles.subtitle}>Uygulamayi ana ekrana yukleyin</p>
 
-        {deferredPrompt ? (
-          <button onClick={handleInstall} className={styles.installBtn}>
-            <Download size={20} />
-            Uygulamayi Yukle
-          </button>
-        ) : device === 'ios' ? (
-          <div className={styles.instructions}>
-            <p className={styles.stepTitle}>Nasil yuklerim?</p>
-            <div className={styles.step}>
-              <Share size={18} />
-              <span>Alt bardaki <strong>Paylas</strong> butonuna basin</span>
-            </div>
-            <div className={styles.step}>
-              <Plus size={18} />
-              <span><strong>Ana Ekrana Ekle</strong> secenegine basin</span>
-            </div>
-          </div>
-        ) : device === 'android' ? (
-          <div className={styles.instructions}>
-            <p className={styles.stepTitle}>Nasil yuklerim?</p>
-            <div className={styles.step}>
-              <MoreVertical size={18} />
-              <span>Sag ustteki <strong>3 nokta</strong> menusune basin</span>
-            </div>
-            <div className={styles.step}>
-              <Download size={18} />
-              <span><strong>Uygulamayi yukle</strong> veya <strong>Ana ekrana ekle</strong></span>
-            </div>
-          </div>
-        ) : (
-          <div className={styles.instructions}>
-            <p className={styles.stepTitle}>Adres cubugundaki yukle ikonuna tiklayin</p>
-          </div>
-        )}
-
+        <button onClick={handleInstall} className={styles.installBtn} disabled={!deferredPrompt}>
+          <Download size={20} />
+          Indir
+        </button>
       </div>
     </div>
   )
