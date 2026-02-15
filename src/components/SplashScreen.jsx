@@ -9,21 +9,25 @@ export default function SplashScreen() {
   const [fading, setFading] = useState(false)
 
   useEffect(() => {
+    // 2s görüntüle, sonra fade başlat
     const fadeTimer = setTimeout(() => {
       setFading(true)
     }, 2000)
 
+    return () => clearTimeout(fadeTimer)
+  }, [])
+
+  useEffect(() => {
+    if (!fading) return
+    // Fade animasyonu bittikten sonra navigate et (500ms)
     const navTimer = setTimeout(() => {
       if (!loading) {
         navigate(user ? '/chat' : '/login', { replace: true })
       }
-    }, 2500)
+    }, 500)
 
-    return () => {
-      clearTimeout(fadeTimer)
-      clearTimeout(navTimer)
-    }
-  }, [user, loading, navigate])
+    return () => clearTimeout(navTimer)
+  }, [fading, user, loading, navigate])
 
   return (
     <div className={`${styles.container} ${fading ? styles.fadeOut : ''}`}>
