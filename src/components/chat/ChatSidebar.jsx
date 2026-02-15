@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../../hooks/useAuth'
-import { Search, Plus, LogOut, Settings } from 'lucide-react'
+import { useTheme } from '../../hooks/useTheme'
+import { Search, Plus, LogOut, Sun, Moon } from 'lucide-react'
 import Avatar from '../ui/Avatar'
 import ChatListItem from './ChatListItem'
 import NewChatModal from './NewChatModal'
@@ -8,6 +9,7 @@ import styles from './ChatSidebar.module.css'
 
 export default function ChatSidebar({ conversations, loading, activeId, onSelect, onNewChat }) {
   const { user, logout } = useAuth()
+  const { theme, toggle } = useTheme()
   const [search, setSearch] = useState('')
   const [showNewChat, setShowNewChat] = useState(false)
 
@@ -23,6 +25,9 @@ export default function ChatSidebar({ conversations, loading, activeId, onSelect
           <Avatar username={user?.username} color={user?.avatar_color} size={40} />
           <span className={styles.username}>{user?.username}</span>
         </div>
+        <button onClick={toggle} className={styles.themeBtn} title="Tema degistir">
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
       </div>
 
       <div className={styles.searchBar}>

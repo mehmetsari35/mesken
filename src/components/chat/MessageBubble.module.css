@@ -32,6 +32,7 @@
   color: var(--text);
   border-top-left-radius: 12px;
   border-bottom-left-radius: 4px;
+  box-shadow: var(--shadow);
 }
 
 .content {

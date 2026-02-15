@@ -18,6 +18,22 @@
   color: var(--text);
 }
 
+.themeBtn {
+  padding: 10px;
+  border-radius: 50%;
+  color: var(--text-muted);
+  transition: all var(--transition);
+}
+
+.themeBtn:hover {
+  background: rgba(248, 95, 106, 0.1);
+  color: var(--primary);
+}
+
+.themeBtn:active {
+  transform: scale(0.9);
+}
+
 .searchBar {
   padding: 8px 14px;
   position: relative;
