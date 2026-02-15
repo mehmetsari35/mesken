@@ -19,8 +19,9 @@ export default function ChatWindow({ conversation, onBack }) {
   if (!conversation) {
     return (
       <div className={styles.empty}>
-        <svg viewBox="0 0 100 100" className={styles.emptyIcon} width="64" height="64">
-          <polygon points="50,10 90,75 10,75" fill="#2AABEE"/>
+        <svg viewBox="0 0 120 120" className={styles.emptyIcon} width="64" height="64">
+          <circle cx="60" cy="60" r="60" fill="#2AABEE"/>
+          <path d="M60 25 L92 72 Q93 75 90 75 L30 75 Q27 75 28 72 Z" fill="white" strokeLinejoin="round" stroke="white" strokeWidth="6"/>
         </svg>
         <h3>Mesken</h3>
         <p>Bir sohbet secin veya yeni bir sohbet baslatin</p>

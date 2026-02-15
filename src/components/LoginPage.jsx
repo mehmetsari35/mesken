@@ -73,8 +73,9 @@ export default function LoginPage() {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.header}>
-          <svg viewBox="0 0 100 100" className={styles.logoIcon} width="48" height="48">
-            <polygon points="50,10 90,75 10,75" fill="#2AABEE"/>
+          <svg viewBox="0 0 120 120" className={styles.logoIcon} width="72" height="72">
+            <circle cx="60" cy="60" r="60" fill="#2AABEE"/>
+            <path d="M60 25 L92 72 Q93 75 90 75 L30 75 Q27 75 28 72 Z" fill="white" strokeLinejoin="round" stroke="white" strokeWidth="6"/>
           </svg>
           <h1 className={styles.logo}>Mesken</h1>
         </div>
