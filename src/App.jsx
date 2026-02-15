@@ -1,0 +1,31 @@
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { useAuth } from './hooks/useAuth'
+import SplashScreen from './components/SplashScreen'
+import LoginPage from './components/LoginPage'
+import ChatLayout from './components/chat/ChatLayout'
+
+function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth()
+  if (loading) return null
+  return user ? children : <Navigate to="/login" replace />
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<SplashScreen />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route
+        path="/chat"
+        element={
+          <ProtectedRoute>
+            <ChatLayout />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  )
+}
+
+export default App

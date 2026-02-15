@@ -1,0 +1,112 @@
+.container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6C5CE7 0%, #a29bfe 100%);
+  padding: 20px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.5s ease;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 6px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputGroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 16px;
+  color: var(--text-muted);
+}
+
+.input {
+  width: 100%;
+  padding: 14px 16px 14px 48px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color var(--transition);
+}
+
+.input:focus {
+  border-color: var(--primary);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  background: var(--primary);
+  color: white;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background var(--transition);
+  margin-top: 8px;
+}
+
+.button:hover {
+  background: var(--primary-dark);
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

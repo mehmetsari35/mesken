@@ -1,0 +1,75 @@
+import { useEffect, useRef } from 'react'
+import { useAuth } from '../../hooks/useAuth'
+import { useMessages } from '../../hooks/useMessages'
+import { ArrowLeft, MessageCircle } from 'lucide-react'
+import Avatar from '../ui/Avatar'
+import MessageBubble from './MessageBubble'
+import MessageInput from './MessageInput'
+import styles from './ChatWindow.module.css'
+
+export default function ChatWindow({ conversation, onBack }) {
+  const { user } = useAuth()
+  const { messages, loading, sendMessage } = useMessages(conversation?.id)
+  const messagesEndRef = useRef(null)
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  if (!conversation) {
+    return (
+      <div className={styles.empty}>
+        <MessageCircle size={64} strokeWidth={1} className={styles.emptyIcon} />
+        <h3>MESKEN</h3>
+        <p>Bir sohbet secin veya yeni bir sohbet baslatin</p>
+      </div>
+    )
+  }
+
+  const otherUser = conversation.otherUser
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <button onClick={onBack} className={styles.backBtn}>
+          <ArrowLeft size={22} />
+        </button>
+        <Avatar
+          username={otherUser?.username}
+          color={otherUser?.avatar_color}
+          size={38}
+          online={otherUser?.online}
+        />
+        <div className={styles.headerInfo}>
+          <span className={styles.headerName}>{otherUser?.username || 'Kullanici'}</span>
+          <span className={styles.headerStatus}>
+            {otherUser?.online ? 'Cevrimici' : 'Cevrimdisi'}
+          </span>
+        </div>
+      </div>
+
+      <div className={styles.messages}>
+        {loading ? (
+          <div className={styles.loadingMessages}>
+            <p>Mesajlar yukleniyor...</p>
+          </div>
+        ) : messages.length === 0 ? (
+          <div className={styles.noMessages}>
+            <p>Henuz mesaj yok. Merhaba deyin!</p>
+          </div>
+        ) : (
+          messages.map(msg => (
+            <MessageBubble
+              key={msg.id}
+              message={msg}
+              isMine={msg.sender_id === user.id}
+            />
+          ))
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      <MessageInput onSend={sendMessage} />
+    </div>
+  )
+}
