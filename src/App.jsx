@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
 import SplashScreen from './components/SplashScreen'
@@ -18,10 +17,8 @@ function ProtectedRoute({ children }) {
 }
 
 function App() {
-  const [bypassed, setBypassed] = useState(false)
-
-  if (!isStandalone() && !bypassed) {
-    return <InstallPrompt onBypass={() => setBypassed(true)} />
+  if (!isStandalone()) {
+    return <InstallPrompt />
   }
 
   return (

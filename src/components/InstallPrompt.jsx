@@ -14,7 +14,7 @@ function getDeviceType() {
   return 'desktop'
 }
 
-export default function InstallPrompt({ onBypass }) {
+export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState(null)
   const [installed, setInstalled] = useState(isStandalone())
   const device = getDeviceType()
@@ -96,9 +96,6 @@ export default function InstallPrompt({ onBypass }) {
           </div>
         )}
 
-        <button onClick={onBypass} className={styles.bypassBtn}>
-          Tarayicida devam et
-        </button>
       </div>
     </div>
   )
