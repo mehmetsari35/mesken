@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import styles from './SplashScreen.module.css'
@@ -6,18 +6,27 @@ import styles from './SplashScreen.module.css'
 export default function SplashScreen() {
   const navigate = useNavigate()
   const { user, loading } = useAuth()
+  const [fading, setFading] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const fadeTimer = setTimeout(() => {
+      setFading(true)
+    }, 2000)
+
+    const navTimer = setTimeout(() => {
       if (!loading) {
         navigate(user ? '/chat' : '/login', { replace: true })
       }
     }, 2500)
-    return () => clearTimeout(timer)
+
+    return () => {
+      clearTimeout(fadeTimer)
+      clearTimeout(navTimer)
+    }
   }, [user, loading, navigate])
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${fading ? styles.fadeOut : ''}`}>
       <div className={styles.content}>
         <div className={styles.logoIcon}>
           <svg viewBox="0 0 1503 1504" className={styles.triangle}>
@@ -29,9 +38,8 @@ export default function SplashScreen() {
           </svg>
         </div>
         <h1 className={styles.logo}>Mesken</h1>
-        <p className={styles.tagline}>Guvende mesajlas</p>
+        <p className={styles.credit}>Crafted by Mehmet Sari</p>
       </div>
-      <p className={styles.credit}>Crafted by Mehmet Sari</p>
     </div>
   )
 }

@@ -5,7 +5,12 @@
   align-items: center;
   justify-content: center;
   background: var(--bg);
-  animation: fadeIn 0.3s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fadeOut {
+  opacity: 0;
+  transform: scale(0.96);
 }
 
 .content {
@@ -35,20 +40,11 @@
   letter-spacing: 2px;
 }
 
-.tagline {
-  color: var(--text-muted);
-  font-size: 1rem;
-  font-weight: 300;
-  letter-spacing: 2px;
-  text-transform: lowercase;
-}
-
 .credit {
-  position: absolute;
-  bottom: 32px;
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   letter-spacing: 1px;
-  opacity: 0.5;
-  animation: fadeIn 1.5s ease;
+  margin-top: 6px;
+  opacity: 0.6;
+  animation: fadeIn 1s ease;
 }
